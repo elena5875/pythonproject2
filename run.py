@@ -7,3 +7,13 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive"
     ]
     
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('Inventory_of_stocks')
+
+inventory = SHEET.worksheet('inventory')
+
+data = inventory.get_all_values()
+
+print(data)
