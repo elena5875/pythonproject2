@@ -38,8 +38,8 @@ def add_stock(product, quantity):
     else:
         # If the product is not in the sheet, add a new row
         sheet.append_row([product, quantity])
-        
-# Function to update delivery
+
+# Function to add delivery
 def update_delivery(product, delivered_quantity):
     # Check if the product is in the sheet
     if product in products:
@@ -50,5 +50,17 @@ def update_delivery(product, delivered_quantity):
         new_quantity = max(current_quantity - delivered_quantity, 0)
         # Update the sheet with the new quantity
         sheet.update_cell(index, 2, str(new_quantity))
+    else:
+        print(f"Product '{product}' not found in the inventory.")
+
+# Function to check inventory
+def check_inventory(product):
+    # Check if the product is in the sheet
+    if product in products:
+        # Get the index of the product in the list
+        index = products.index(product) + 1  # Adjusted to start from index 1
+        # Get the current quantity and print it
+        current_quantity = int(sheet.cell(index, 2).value)
+        print(f"Current inventory of {product}: {current_quantity}")
     else:
         print(f"Product '{product}' not found in the inventory.")
