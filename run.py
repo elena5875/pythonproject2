@@ -12,8 +12,15 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('Inventory_of_stocks')
 
-inventory = SHEET.worksheet('inventory')
+def get_stocks_in_data():
+    """
+    Get stocks input from the user
+    """
+    print("Please enter stocks for the day.")
+    print("Data should be 6 numbers separated by commas")
+    print("Example: 10,20,30,40,50,60\n")
 
-data = inventory.get_all_values()
+    data_str = input("Enter your data here:")
+    print(f"The data provided is {data_str}")
 
-print(data)
+get_stocks_in_data()
