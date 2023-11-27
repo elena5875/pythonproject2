@@ -1,1 +1,1 @@
-# Your requirements go here
+gspread==4.0.1
