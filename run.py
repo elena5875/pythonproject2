@@ -24,12 +24,27 @@ def update_inventory():
     choice = int(input("Choose a menu item Pleae enter the number: "))
 
     #for stocks_in quantity
-    stocks_in_quantity = int(input("Please enter the quantity for stocks_in:"))
+    stocks_in_quantity = int(input("Please enter the quantity for stocks_in: "))
 
-    #update stocks_in sheet
-    stocks_in_cell = stocks_in_sheet.find(menu_list[choice -1])
-    stocks_in_cell.update_cell(stocks_in_cell.row, stocks_in_cell.col +1, stocks_in_quantity)
+    # Update Stocks-In sheet
+    stocks_in_cell = stocks_in_sheet.find(menu_list[choice - 1])
+    stocks_in_sheet.update_cell(stocks_in_cell.row, stocks_in_cell.col + 1, stocks_in_quantity)
+    #For delivered quantity
+    delivered_quantity = int(input("Please enter the quantity delivered: "))
+    
+    # Update Delivered sheet
+    delivered_cell = delivered_sheet.find(menu_list[choice - 1])
+    delivered_sheet.update_cell(delivered_cell.row, delivered_cell.col + 1, delivered_quantity)
+    
+    print(f"stocks_in and delivered Updated for {menu_lilst[choice -1]}")
 
+
+
+update_inventory()
+
+
+
+    
     
 
 
