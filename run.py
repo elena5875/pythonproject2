@@ -21,4 +21,18 @@ def update_inventory():
     for i, item in enumerate(menu_list, start=1):
         print(f"{i}. {item}")
 
+    choice = int(input("Choose a menu item Pleae enter the number: "))
+
+    #for stocks_in quantity
+    stocks_in_quantity = int(input("Please enter the quantity for stocks_in:"))
+
+    #update stocks_in sheet
+    stocks_in_cell = stocks_in_sheet.find(menu_list[choice -1])
+    stocks_in_cell.update_cell(stocks_in_cell.row, stocks_in_cell.col +1, stocks_in_quantity)
+
     
+
+
+
+   
+
