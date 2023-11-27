@@ -29,21 +29,20 @@ def update_inventory():
     # Update Stocks-In sheet
     stocks_in_cell = stocks_in_sheet.find(menu_list[choice - 1])
     stocks_in_sheet.update_cell(stocks_in_cell.row, stocks_in_cell.col + 1, stocks_in_quantity)
+
     #For delivered quantity
     delivered_quantity = int(input("Please enter the quantity delivered: "))
     
+    
+
     # Update Delivered sheet
     delivered_cell = delivered_sheet.find(menu_list[choice - 1])
     delivered_sheet.update_cell(delivered_cell.row, delivered_cell.col + 1, delivered_quantity)
-    
-    print(f"stocks_in and delivered Updated for {menu_lilst[choice -1]}")
 
+    print(f"Stocks-In and Delivered updated for {menu_list[choice - 1]}")
 
 
 update_inventory()
-
-
-
     
     
 
