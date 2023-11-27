@@ -1,18 +1,22 @@
 import gspread
 from google.oauth2.service_account import Credentials
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
 ]
 
-credentials = Credentials.from_service_account_file('creds.json')
+CREDS = Credentials.from_service_account_file('creds.json')
 
-scoped_credentials = credentials.with_scopes(SCOPE)
+scoped_credentials = CREDS.with_scopes(SCOPE)
 gspread_client = gspread.authorize(scoped_credentials)
 spreadsheet = gspread_client.open('Inventory_of_stocks')
 stocks_in_sheet = spreadsheet.worksheet('stocks_in')
 delivered_sheet = spreadsheet.worksheet('delivered')
+
+# Rest of your code...
+
 
 def update_inventory():
     # Display menu list from Stocks-In sheet
