@@ -15,8 +15,6 @@ spreadsheet = gspread_client.open('Inventory_of_stocks')
 stocks_in_sheet = spreadsheet.worksheet('stocks_in')
 delivered_sheet = spreadsheet.worksheet('delivered')
 
-# Rest of your code...
-
 
 def update_inventory():
     # Display menu list from Stocks-In sheet
