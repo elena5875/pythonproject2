@@ -28,4 +28,24 @@ def update_sheet(sheet, menu_item, quantity_type):
     sheet.update_cell(1, column_index, current_date)
 
     print(f"{menu_item} updated on {current_date}")
+    
 
+def update_inventory():
+    # Display menu list from Stocks-In sheet
+    menu_list = stocks_in_sheet.col_values(1)[1:]
+    print("Menu List:")
+    for i, item in enumerate(menu_list, start=1):
+        print(f"{i}. {item}")
+
+    choice = int(input("Choose a menu item Please enter the number: "))
+
+    
+    if choice < 1 or choice > len(menu_list):
+        print("Invalid choice. Please enter a valid menu item number.")
+        return
+
+    # Update stocks_in sheet
+    update_sheet(stocks_in_sheet, menu_list[choice - 1], "stocks_in")
+
+    # Update delivered sheet
+    update_sheet(delivered_sheet, menu_list[choice - 1], "delivered")
