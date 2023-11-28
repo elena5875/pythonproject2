@@ -49,3 +49,6 @@ def update_inventory():
 
     # Update delivered sheet
     update_sheet(delivered_sheet, menu_list[choice - 1], "delivered")
+
+
+update_inventory()
