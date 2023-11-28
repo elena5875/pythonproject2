@@ -28,7 +28,7 @@ def update_sheet(sheet, menu_item, quantity_type):
     sheet.update_cell(1, column_index, current_date)
 
     print(f"{menu_item} updated on {current_date}")
-    
+
 
 def update_inventory():
     # Display menu list from Stocks-In sheet
