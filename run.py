@@ -11,9 +11,10 @@ scoped_credentials = CREDS.with_scopes(SCOPE)
 gspread_client = gspread.authorize(scoped_credentials)
 spreadsheet = gspread_client.open('Inventory_of_stocks')
 stocks_in_sheet = spreadsheet.worksheet('stocks_in')
-delivered_sheet = spreadsheet.worksheet('delivered')
+delivered_sheet = spreadsheet.worksheet('stocks_used')
 
 # Define function to update sheet
+
 def update_sheet(sheet, menu_item, quantity_type):
     quantity_input = int(input(f"Enter {quantity_type} quantity for {menu_item}:"))
     current_date = date.today().strftime("%Y-%m-%d")
@@ -35,6 +36,6 @@ choice = int(input("Choose a menu item (Enter the number):"))
 
 if 1 <= choice <= len(menu_list):
     update_sheet(stocks_in_sheet, menu_list[choice - 1], "stocks_in")
-    update_sheet(delivered_sheet, menu_list[choice - 1], "delivered")
+    update_sheet(delivered_sheet, menu_list[choice - 1], "stocks_used")
 else:
     print("Invalid choice. Enter a valid menu item number.")
