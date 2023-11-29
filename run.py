@@ -29,3 +29,9 @@ def update_sheet(sheet, menu_item, quantity_type):
     sheet.update_cell(1, column_index, current_date)
 
     print(f"{menu_item} updated on {current_date}")
+
+    #display the menu list
+    menu_list = stocks_in_sheet.col_values(1)[1:]
+    print("Menu List:")
+    for i, item in enumerate(menu_list, start=1):
+        print(f"{i}. {item}")
