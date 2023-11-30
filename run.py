@@ -76,14 +76,14 @@ while True:
         inventory_sheet.clear()
 
         # Update the "inventory" sheet with the calculated values
-        inventory_sheet.append_rows([["Menu Item", "Inventory Difference"]] + inventory_values)
+        inventory_sheet.append_rows([["Quatntity left in the stockroom"]] + inventory_values)
 
         # Display the inventory list
         inventory_list = inventory_sheet.get_all_values()
         print("\nInventory List:")
         for row in inventory_list:
             print(row)
-        break  # Exit the loop if the user does not want to continue
+        break  
 
 
 
