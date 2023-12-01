@@ -39,7 +39,7 @@ def update_sheet(sheet, menu_item, quantity_type):
 
 # Display a welcome message
 print("Welcome to the Inventory Management System!")
-print("This will allow you to update and manage the inventory of stocks in your pantry.")
+print("This will allow you to update and manage your stocks in your pantry.")
 
 # Main loop for user interaction
 while True:

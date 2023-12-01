@@ -21,6 +21,7 @@
 
     Reference
     https://github.com/burnash/gspread
+    https://www.geeksforgeeks.org/inventory-management-with-json-in-python/
 
     
 
