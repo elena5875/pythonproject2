@@ -94,22 +94,32 @@ PROGRAM BUILD UP
 ![google sheet inventory](./images//pythonchecker.jpg)
 
 
-#DEPLOYMENT
+# DEPLOYMENT
     I deployed my project in both heroku and github
     the following steps were made:
 
+        1. Created a repository from github
+        2. Copied the repository URL for my repository
+        3. Created a file in CodeAnywhere for my IDE.
+        5. Run the new file in Codeanywhere
 
-#CREDITS AND REFERENCES
+    Creating a file in Heroku
+
+        1. created an app in Heroku
+        2. Chose github as my deployment method
+        3. Connected my github repository to heroku
+        4. Change my Config vars in the setting
+        5. Added a build up pack Python and Nodejs
+        6. Heroku is now ready to deploy
+
+# CREDITS AND REFERENCES
 
     https://github.com/burnash/gspread
     https://www.geeksforgeeks.org/inventory-management-with-json-in-python/
     https://stackoverflow.com/questions/14494747/how-to-add-images-to-readme-md-on-github
-
-    
-
-    
-
-      HELLO!
+    https://docs.gspread.org/en/latest/user-guide.html
+    https://realpython.com/python-datetime/
+    https://realpython.com/python-exceptions/
 
 
 
