@@ -89,11 +89,13 @@ PROGRAM BUILD UP
 
 
 TESTING
-I validated my code using the python syntax checker pep8
-!    [google sheet inventory](./images//pythonchecker.jpg)
+    I validated my code using the python syntax checker pep8
+!       [google sheet inventory](./images//pythonchecker.jpg)
 
 
 DEPLOYMENT
+    I deployed my project in both heroku and github
+    the following steps were made:
 
 
 CREDITS AND REFERENCES
@@ -106,6 +108,7 @@ CREDITS AND REFERENCES
 
     
 
+      HELLO!
       
 
 
