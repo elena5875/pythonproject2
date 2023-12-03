@@ -4,6 +4,8 @@
         This would be a useful app to have in monitoring the list of items you have in the kitchen or restaurant that you use daily 
         and would like to get a reminder of what to buy or restock the next day.
 
+        
+
 #    FEATURES
 
         This program is intended for those user who has a big kitchen or a small restaurant to manage
@@ -43,6 +45,8 @@
     and what source code I would need to make this program work
 
 ![workflowt](./images/workflow.jpg)
+
+
 
 # PROGRAM BUILD UP
 
@@ -87,12 +91,14 @@
         delivered_sheet = spreadsheet.worksheet('stocks_used')
 
     4. Commit and push your file.
+    
 
 
 # TESTING
 
     I validated my code using the python syntax checker pep8
 ![google sheet inventory](./images//pythonchecker.jpg)
+
 
 
 # DEPLOYMENT
@@ -112,6 +118,8 @@
         4. Change my Config vars in the setting
         5. Added a build up pack Python and Nodejs
         6. Heroku is now ready to deploy
+
+        
 
 # CREDITS AND REFERENCES
 
