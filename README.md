@@ -17,39 +17,39 @@
 
      1. User will be greeted with a Welcome to INVENTORY MANAGEMENT SYSTEM !!!
      2. User is asked to choose from the Menu list which Item it wants to update
-        ![The begining of the program](./images/begining_heroku.jpg)
+![The begining of the program](./images/begining_heroku.jpg)
      
      3. User is then asked to enter the stocks_in
      4. The app will tell the user that it has sucessfuly updated the item and will show the date
-        ![encoding the stocks_in](./images/stocks_in_heroku.jpg)
+![encoding the stocks_in](./images/stocks_in_heroku.jpg)
 
      5. User is asked to enter the stocks_used
      6. The app will tell the user that it has sucessfully updated the item and will show the date
-        ![encoding the stocks_in](./images/stocks_used_heroku.jpg)
+![encoding the stocks_in](./images/stocks_used_heroku.jpg)
 
      7. The program will then ask the user if it wants to continue. If the user says yes the program goes
         back to the menu list
-        ![showing the loop](./images/loopheroku.jpg)
+![showing the loop](./images/loopheroku.jpg)
 
      7. The app then calculates the amount left in the stocks and placed it in the inventory
      8. The app will prompt the user the quantity it needs to shop to restock the list for the next day. 
      9.The app will also promt the user if it wants to print the said list so they can use for shopping.
-        ![showing the inventory list](./images/inventory_list.jpg)
+![showing the inventory list](./images/inventory_list.jpg)
 
 
 FLOW OF WORK
     To start this project I created a workflow to make sure that I am aware of how my project would work
     and what source code I would need to make this program work
 
-        ![workflowt](./images/workflow.jpg)
+![workflowt](./images/workflow.jpg)
 
 PROGRAM BUILD UP
 
     To create this program I needed to make sure that my python program is connected to my google sheets. 
     in order to do this I have first create my google sheets.
-    ![google sheet stocks_in](./images/stocks_in.jpg)
-    ![google sheet stocks_used](./images/stocks_used.jpg)
-    ![google sheet inventory](./images/inventory.jpg)
+![google sheet stocks_in](./images/stocks_in.jpg)
+![google sheet stocks_used](./images/stocks_used.jpg)
+![google sheet inventory](./images/inventory.jpg)
 
     After this I have to do the following:
     
@@ -88,17 +88,18 @@ PROGRAM BUILD UP
     4. Commit and push your file.
 
 
-TESTING
+#TESTING
+
     I validated my code using the python syntax checker pep8
-!       [google sheet inventory](./images//pythonchecker.jpg)
+![google sheet inventory](./images//pythonchecker.jpg)
 
 
-DEPLOYMENT
+#DEPLOYMENT
     I deployed my project in both heroku and github
     the following steps were made:
 
 
-CREDITS AND REFERENCES
+#CREDITS AND REFERENCES
 
     https://github.com/burnash/gspread
     https://www.geeksforgeeks.org/inventory-management-with-json-in-python/
@@ -109,6 +110,6 @@ CREDITS AND REFERENCES
     
 
       HELLO!
-      
+
 
 
