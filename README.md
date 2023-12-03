@@ -1,10 +1,10 @@
-    INVENTORY MANAGEMENT SYSTEM
+#    INVENTORY MANAGEMENT SYSTEM
 
         This is an app is intended for users who are working on restaurants or in a big kitchen.
         This would be a useful app to have in monitoring the list of items you have in the kitchen or restaurant that you use daily 
         and would like to get a reminder of what to buy or restock the next day.
 
-    FEATURES
+#    FEATURES
 
         This program is intended for those user who has a big kitchen or a small restaurant to manage
         This will help the user in monitoring the flow of the stocks coming in and stocks that are being used
@@ -37,14 +37,14 @@
 ![showing the inventory list](./images/inventory_list.jpg)
 
 
-FLOW OF WORK
+# FLOW OF WORK
 
     To start this project I created a workflow to make sure that I am aware of how my project would work
     and what source code I would need to make this program work
 
 ![workflowt](./images/workflow.jpg)
 
-PROGRAM BUILD UP
+# PROGRAM BUILD UP
 
     To create this program I needed to make sure that my python program is connected to my google sheets. 
     in order to do this I have first create my google sheets.
@@ -89,7 +89,7 @@ PROGRAM BUILD UP
     4. Commit and push your file.
 
 
-#TESTING
+# TESTING
 
     I validated my code using the python syntax checker pep8
 ![google sheet inventory](./images//pythonchecker.jpg)
