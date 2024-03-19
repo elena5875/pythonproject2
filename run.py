@@ -42,46 +42,63 @@ def update_sheet(sheet, menu_list, quantity_type):
 
         logging.info("Items placed successfully.")
 
-        # Update inventory after updating stocks_in sheet
-        update_inventory(sheet, menu_list)
-
         return items_data, current_date
     except Exception as e:
         logging.error(f"An error occurred while updating the sheet: {e}")
-        
 
-def update_inventory(stocks_in_sheet, menu_list):
-    """Update the inventory sheet based on the stocks_in data."""
-    inventory_sheet = None
-    for sheet in stocks_in_sheet.spreadsheet.worksheets():
-        if sheet.title == 'inventory':
-            inventory_sheet = sheet
-            break
 
-    if inventory_sheet:
-        current_date = datetime.today().strftime("%Y-%m-%d")
-        logging.info(f"Placing items in inventory sheet with the date: {current_date}")
+def update_inventory(stocks_in_sheet, delivered_sheet, menu_list):
+    """Update the inventory sheet based on the difference between stocks_in and stocks_used data."""
+    try:
+        inventory_sheet = None
+        for sheet in stocks_in_sheet.spreadsheet.worksheets():
+            if sheet.title == 'inventory':
+                inventory_sheet = sheet
+                break
 
-        items_data = []  # List to store items and their quantities
+        if inventory_sheet:
+            current_date = datetime.today().strftime("%Y-%m-%d")
+            logging.info(f"Updating inventory sheet with the difference between stocks_in and stocks_used on {current_date}")
 
-        for menu_item in menu_list:
-            stocks_in_value = stocks_in_sheet.cell(menu_list.index(menu_item) + 2, 2).value
-            if stocks_in_value is None:
-                stocks_in_value = 0
-            items_data.append((menu_item, stocks_in_value))
+            # Get stocks_in data
+            stocks_in_data = [int(cell.value) for cell in stocks_in_sheet.range(2, 2, len(menu_list) + 1, 2)]
 
-        # Find the next available column
-        next_column = len(inventory_sheet.row_values(1)) + 1
+            # Get stocks_used data
+            stocks_used_data = [int(cell.value) for cell in delivered_sheet.range(2, 2, len(menu_list) + 1, 2)]
 
-        # Update the sheet with the collected data
-        for i, (menu_item, quantity) in enumerate(items_data, start=1):
-            inventory_sheet.update_cell(i + 1, next_column, quantity)
-            if i == 1:
-                inventory_sheet.update_cell(1, next_column, current_date)
+            # Calculate the difference
+            inventory_data = [stocks_in - stocks_used for stocks_in, stocks_used in zip(stocks_in_data, stocks_used_data)]
 
-        logging.info("Inventory updated successfully.")
-    else:
-        logging.error("Inventory sheet not found.")
+            # Find the next available column
+            next_column = len(inventory_sheet.row_values(1)) + 1
+
+            # Update the date in the first row
+            inventory_sheet.update_cell(1, next_column, current_date)
+
+            # Update the sheet with the calculated difference
+            for i, difference in enumerate(inventory_data, start=1):
+                inventory_sheet.update_cell(i + 1, next_column, difference)
+
+            logging.info("Inventory updated successfully.")
+        else:
+            logging.error("Inventory sheet not found.")
+    except Exception as e:
+        logging.error(f"An error occurred while updating the inventory sheet: {e}")
+
+def get_last_inventory_date(inventory_sheet):
+    """Retrieve the last inventory date from the inventory sheet."""
+    try:
+        last_column_values = inventory_sheet.row_values(1)
+        last_inventory_date_index = len(last_column_values)
+        last_inventory_date = last_column_values[last_inventory_date_index - 1]
+        # If the last inventory date is negative or empty, set it to 0
+        last_inventory_date = str(last_inventory_date) if last_inventory_date else "No date available"
+        return last_inventory_date, last_inventory_date_index
+    except Exception as e:
+        logging.error(f"An error occurred while retrieving the last inventory date: {e}")
+        return "No date available", 0
+
+
 
 
 def main():
@@ -101,18 +118,35 @@ def main():
             elif sheet.title == 'inventory':
                 inventory_sheet = sheet
 
-        if not stocks_in_sheet:
-            logging.error("Sheet 'stocks_in' not found.")
-            return
-        if not delivered_sheet:
-            logging.error("Sheet 'stocks_used' not found.")
-            return
-        if not inventory_sheet:
-            logging.error("Sheet 'inventory' not found.")
+        if not stocks_in_sheet or not delivered_sheet or not inventory_sheet:
+            logging.error("One or more required sheets not found.")
             return
 
         print("Welcome to the Inventory Management System!")
         print("This will allow you to update and manage your stocks in your pantry.")
+
+        # Retrieve the last inventory date
+        last_inventory_date, last_column_index = get_last_inventory_date(inventory_sheet)
+        print("Last Inventory Date:", last_inventory_date)
+
+        add_last_inventory_data = input("Do you want to add the last inventory date to the new stocks_in data? (yes/no): ").lower()
+        if add_last_inventory_data == 'yes':
+            # Add the last inventory date to the new stocks_in data
+            if last_column_index > 0:
+                stocks_in_sheet.update_cell(1, last_column_index + 1, last_inventory_date)
+                print(f"Last inventory date {last_inventory_date} added to new stocks_in data.")
+            else:
+                print("No existing data found in stocks_in sheet. Unable to add last inventory date.")
+        elif add_last_inventory_data == 'no':
+            print("Proceeding without adding the last inventory date.")
+        else:
+            print("Invalid choice. Proceeding without adding the last inventory date.")
+
+        # Display inventory data
+        inventory_list = inventory_sheet.get_all_values()
+        print("\nInventory List:")
+        for row in inventory_list:
+            print(row)
 
         while True:
             print("Menu List:")
@@ -123,12 +157,12 @@ def main():
             print(f"\nItems placed on {current_date}:")
             for item, quantity in items_data:
                 print(f"{item}: {quantity}")
-            
+
             print("\nWhat would you like to do next?")
             print("1. Exit the program")
             print("2. Edit the data input")
             print("3. Proceed to update 'stocks_used'")
-            
+
             choice = input("Enter your choice (1/2/3): ")
             if choice == '1':
                 print("Thank you for using the Inventory Management System. Goodbye!")
@@ -137,8 +171,6 @@ def main():
                 continue
             elif choice == '3':
                 break
-            else:
-                print("Invalid choice. Please enter 1, 2, or 3.")
 
         while True:
             print("\nMenu List for 'stocks_used':")
@@ -148,12 +180,12 @@ def main():
             print(f"\nItems used on {current_date}:")
             for item, quantity in items_data:
                 print(f"{item}: {quantity}")
-            
+
             print("\nWhat would you like to do next?")
             print("1. Exit the program")
             print("2. Edit the data input")
             print("3. Finish updating 'stocks_used' and proceed to inventory calculation")
-            
+
             choice = input("Enter your choice (1/2/3): ")
             if choice == '1':
                 print("Thank you for using the Inventory Management System. Goodbye!")
@@ -162,23 +194,21 @@ def main():
                 continue
             elif choice == '3':
                 break
-            else:
-                print("Invalid choice. Please enter 1, 2, or 3.")
 
         # Calculate the difference and update the "inventory" sheet
-        update_inventory(stocks_in_sheet, menu_list)
+        update_inventory(stocks_in_sheet, delivered_sheet, menu_list)
 
-        # Display the inventory list
+        # Display the updated inventory list
         inventory_list = inventory_sheet.get_all_values()
-        print("\nInventory List:")
+        print("\nUpdated Inventory List:")
         for row in inventory_list:
             print(row)
 
         print("Thank you for using the Inventory Management System. Goodbye!")
-    
+
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
+
 if __name__ == "__main__":
     main()
-
