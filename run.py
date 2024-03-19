@@ -41,30 +41,48 @@ def update_sheet(sheet, menu_list, quantity_type):
                 sheet.update_cell(1, column_index, current_date)
 
         logging.info("Items placed successfully.")
+
+        # Update inventory after updating stocks_in sheet
+        update_inventory(sheet, menu_list)
+
         return items_data, current_date
     except Exception as e:
         logging.error(f"An error occurred while updating the sheet: {e}")
+        
 
+def update_inventory(stocks_in_sheet, menu_list):
+    """Update the inventory sheet based on the stocks_in data."""
+    inventory_sheet = None
+    for sheet in stocks_in_sheet.spreadsheet.worksheets():
+        if sheet.title == 'inventory':
+            inventory_sheet = sheet
+            break
 
-def update_stocks_used(sheet, menu_list):
-    """Update a sheet with quantity information for stocks_used."""
-    current_date = datetime.today().strftime("%Y-%m-%d")
-    print(f"Placing items in stocks_used sheet with the date: {current_date}")
+    if inventory_sheet:
+        current_date = datetime.today().strftime("%Y-%m-%d")
+        logging.info(f"Placing items in inventory sheet with the date: {current_date}")
 
-    items_data = []  # List to store items and their quantities
+        items_data = []  # List to store items and their quantities
 
-    for menu_item in menu_list:
-        while True:
-            quantity_input = input(f"Enter quantity used for {menu_item}: ")
-            if quantity_input.isdigit():
-                quantity_input = int(quantity_input)
-                items_data.append((menu_item, quantity_input))
-                break
-            else:
-                print("Error: Quantity should be a whole number (including 0). Please try again.")
+        for menu_item in menu_list:
+            stocks_in_value = stocks_in_sheet.cell(menu_list.index(menu_item) + 2, 2).value
+            if stocks_in_value is None:
+                stocks_in_value = 0
+            items_data.append((menu_item, stocks_in_value))
 
-    print("Items placed successfully.")
-    return items_data, current_date  # Return the items data and current date
+        # Find the next available column
+        next_column = len(inventory_sheet.row_values(1)) + 1
+
+        # Update the sheet with the collected data
+        for i, (menu_item, quantity) in enumerate(items_data, start=1):
+            inventory_sheet.update_cell(i + 1, next_column, quantity)
+            if i == 1:
+                inventory_sheet.update_cell(1, next_column, current_date)
+
+        logging.info("Inventory updated successfully.")
+    else:
+        logging.error("Inventory sheet not found.")
+
 
 def main():
     try:
@@ -148,21 +166,7 @@ def main():
                 print("Invalid choice. Please enter 1, 2, or 3.")
 
         # Calculate the difference and update the "inventory" sheet
-        inventory_values = []
-        for i, item in enumerate(menu_list, start=1):
-            stocks_in_value = stocks_in_sheet.cell(i + 1, 2).value
-            stocks_used_value = delivered_sheet.cell(i + 1, 2).value
-
-            if stocks_in_value is None:
-                stocks_in_value = 0
-            if stocks_used_value is None:
-                stocks_used_value = 0
-
-            difference = int(stocks_in_value) - int(stocks_used_value)
-            inventory_values.append([item, difference])
-
-        inventory_sheet.clear()
-        inventory_sheet.append_rows([["Quatntity left in the stockroom"]] + inventory_values)
+        update_inventory(stocks_in_sheet, menu_list)
 
         # Display the inventory list
         inventory_list = inventory_sheet.get_all_values()
@@ -178,4 +182,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
