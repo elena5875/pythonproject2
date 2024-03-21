@@ -35,27 +35,35 @@ def update_sheet(sheet, menu_list, quantity_type):
 
     print(f"{quantity_type.capitalize()} updated.")
 
-# Function to display the data for the user to see
-def print_data(sheet, menu_list, quantity_type):
-    print(f"{quantity_type.capitalize()} data:")
-    data = sheet.get_all_values()[1:]
-    for item, quantity in zip(menu_list, data):
-        print(f"{item}: {quantity[1]}")
 
-
-# Function to calculate inventory
-def calculate_inventory(stocks_in_sheet, delivered_sheet):
+# Function to calculate inventory by subtracting stocks_used from stocks_in
+def calculate_inventory(stocks_in_sheet, stocks_used_sheet):
     inventory_values = []
-    stocks_in_values = stocks_in_sheet.get_all_values()[1:]
-    delivered_values = delivered_sheet.get_all_values()[1:]
+    stocks_in_data = stocks_in_sheet.get_all_values()[1:]
+    stocks_used_data = stocks_used_sheet.get_all_values()[1:]
 
-    for stock_in, delivered in zip(stocks_in_values, delivered_values):
+    for stock_in, stock_used in zip(stocks_in_data, stocks_used_data):
         item = stock_in[0]
         stock_in_quantity = int(stock_in[1]) if stock_in[1].isdigit() else 0
-        delivered_quantity = int(delivered[1]) if delivered[1].isdigit() else 0
-        inventory_values.append([item, stock_in_quantity - delivered_quantity])
+        stock_used_quantity = int(stock_used[1]) if stock_used[1].isdigit() else 0
+        difference = stock_in_quantity - stock_used_quantity
+        inventory_values.append([item, difference])
 
     return inventory_values
+
+# Function to update inventory sheet with inventory values
+def update_inventory_sheet(inventory_sheet, inventory_values):
+    inventory_sheet.clear()
+    inventory_sheet.append_row(["Item", "Inventory"])
+    for item, quantity in inventory_values:
+        inventory_sheet.append_row([item, quantity])
+
+# Function to display inventory data
+def print_inventory_data(inventory_sheet):
+    print("Inventory data:")
+    data = inventory_sheet.get_all_values()[1:]
+    for item, quantity in data:
+        print(f"{item}: {quantity}")
 
 # Function to update inventory with calculated values
 def update_inventory_sheet(inventory_sheet, inventory_values):
@@ -94,13 +102,20 @@ def main():
 
         if choice == '1':
             update_sheet(stocks_in_sheet, menu_list, "stock in")
-            print_data(stocks_in_sheet, menu_list, "stock in")
+            print("Updated stocks in:")
+            for item in menu_list:
+                print(f"{item}: {stocks_in_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
         elif choice == '2':
             update_sheet(stocks_used_sheet, menu_list, "stocks used")
-            print_data(stocks_used_sheet, menu_list, "stocks used")
+            print("Updated stocks used:")
+            for item in menu_list:
+                print(f"{item}: {stocks_used_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
         elif choice == '3':
-            print_data(stocks_in_sheet, menu_list, "stock in")
-            print_data(stocks_used_sheet, menu_list, "stocks used")
+            inventory_values = calculate_inventory(stocks_in_sheet, stocks_used_sheet)
+            update_inventory_sheet(inventory_sheet, inventory_values)
+            print("Updated inventory:")
+            for item, quantity in inventory_values:
+                print(f"{item}: {quantity}")
         elif choice == '4':
             # Update inventory with the latest stock in
             pass
