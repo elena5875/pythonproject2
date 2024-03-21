@@ -20,14 +20,12 @@ def update_sheet(sheet, menu_list, quantity_type):
     for item in menu_list:
         while True:
             try:
-                quantity_input = int(input(f"Enter {quantity_type} quantity for {item}: "))
-                if quantity_input >= 0:
-                    break
-                else:
-                    print("Error: Quantity should be a non-negative integer.")
+                quantity_input = input(f"Enter {quantity_type} quantity for {item}: ")
+                quantity = int(quantity_input) if quantity_input.isdigit() and int(quantity_input) >= 0 else 0
+                break
             except ValueError:
-                print("Error: Quantity should be a positive integer.")
-        data.append([item, quantity_input])
+                print("Error: Quantity should be a non-negative integer.")
+        data.append([item, quantity])
 
     # Update the Google Sheet
     for row, (item, quantity) in enumerate(data, start=2):
@@ -47,9 +45,10 @@ def calculate_inventory(stocks_in_sheet, stocks_used_sheet):
         stock_in_quantity = int(stock_in[1]) if stock_in[1].isdigit() else 0
         stock_used_quantity = int(stock_used[1]) if stock_used[1].isdigit() else 0
         difference = stock_in_quantity - stock_used_quantity
-        inventory_values.append([item, difference])
+        inventory_values.append([item, max(0, difference)])
 
     return inventory_values
+
 
 # Function to update inventory sheet with inventory values
 def update_inventory_sheet(inventory_sheet, inventory_values):
@@ -127,5 +126,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    
 
     
