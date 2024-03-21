@@ -15,39 +15,33 @@ def authenticate_google_sheets():
 
 # Function to update stock in or stock used
 def update_sheet(sheet, menu_list, quantity_type):
-    print("Menu List:")
-    for i, item in enumerate(menu_list, start=1):
-        print(f"{i}. {item}")
+    print(f"Updating {quantity_type}:")
+    data = []
+    for item in menu_list:
+        while True:
+            try:
+                quantity_input = int(input(f"Enter {quantity_type} quantity for {item}: "))
+                if quantity_input >= 0:
+                    break
+                else:
+                    print("Error: Quantity should be a non-negative integer.")
+            except ValueError:
+                print("Error: Quantity should be a positive integer.")
+        data.append([item, quantity_input])
 
-    while True:
-        try:
-            choice = int(input("Choose an item number to update (Enter the number): "))
-            if 1 <= choice <= len(menu_list):
-                menu_item = menu_list[choice - 1]
-                break
-            else:
-                print("Invalid choice. Enter a valid menu item number.")
-        except ValueError:
-            print("Error: Invalid input. Please enter a valid number.")
+    # Update the Google Sheet
+    for row, (item, quantity) in enumerate(data, start=2):
+        sheet.update_cell(row, 2, quantity)
 
-    try:
-        cell = sheet.find(menu_item)
-    except gspread.exceptions.CellNotFound:
-        sheet.append_row([menu_item, 0])
-        cell = sheet.find(menu_item)
+    print(f"{quantity_type.capitalize()} updated.")
 
-    while True:
-        quantity_input = input(f"Enter {quantity_type} quantity for {menu_item}: ")
-        if quantity_input.isdigit():
-            quantity_input = int(quantity_input)
-            break
-        else:
-            print("Error: Quantity should be a positive integer. Setting quantity to 0.")
-            quantity_input = 0
-            break
+# Function to display the data for the user to see
+def print_data(sheet, menu_list, quantity_type):
+    print(f"{quantity_type.capitalize()} data:")
+    data = sheet.get_all_values()[1:]
+    for item, quantity in zip(menu_list, data):
+        print(f"{item}: {quantity[1]}")
 
-    sheet.update_cell(cell.row, 2, quantity_input)
-    print(f"{menu_item} {quantity_type} updated.")
 
 # Function to calculate inventory
 def calculate_inventory(stocks_in_sheet, delivered_sheet):
@@ -80,7 +74,9 @@ def main():
     gspread_client = authenticate_google_sheets()
     spreadsheet = gspread_client.open('Inventory_of_stocks')
     stocks_in_sheet = spreadsheet.worksheet('stocks_in')
-    delivered_sheet = spreadsheet.worksheet('stocks_used')
+    stocks_used_sheet = spreadsheet.worksheet('stocks_used')
+    inventory_sheet = spreadsheet.worksheet('inventory')
+    updated_stocks_sheet = spreadsheet.worksheet('updated_stocks')
 
     menu_list = ["FLOUR", "SUGAR", "EGG", "MILK", "COFFEE", "RICE"]
 
@@ -97,28 +93,17 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            print("Updating Stock In:")
             update_sheet(stocks_in_sheet, menu_list, "stock in")
-            print("Stock in updated.")
+            print_data(stocks_in_sheet, menu_list, "stock in")
         elif choice == '2':
-            print("Updating Stocks Used:")
-            update_sheet(delivered_sheet, menu_list, "stocks used")
-            print("Stocks used updated.")
+            update_sheet(stocks_used_sheet, menu_list, "stocks used")
+            print_data(stocks_used_sheet, menu_list, "stocks used")
         elif choice == '3':
-            print("Updating Inventory:")
-            inventory_values = calculate_inventory(stocks_in_sheet, delivered_sheet)
-            update_inventory_sheet(spreadsheet.worksheet('inventory'), inventory_values)
-            print("Inventory updated.")
-            display_inventory(spreadsheet.worksheet('inventory'))
+            print_data(stocks_in_sheet, menu_list, "stock in")
+            print_data(stocks_used_sheet, menu_list, "stocks used")
         elif choice == '4':
-            update_choice = input("Do you want to update the inventory with the latest stock in? (yes/no): ")
-            if update_choice.lower() == 'yes':
-                inventory_values = calculate_inventory(stocks_in_sheet, delivered_sheet)
-                update_inventory_sheet(spreadsheet.worksheet('inventory'), inventory_values)
-                print("Inventory updated with the latest stock in.")
-                display_inventory(spreadsheet.worksheet('inventory'))
-            else:
-                print("Inventory not updated.")
+            # Update inventory with the latest stock in
+            pass
         elif choice == '5':
             print("Thank you for using the Warehouse Management System. Have a nice day!")
             break
