@@ -2,6 +2,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import date
+import datetime
 
 def authenticate_google_sheets():
     """Authenticate with Google Sheets using service account credentials."""
@@ -77,6 +78,30 @@ def display_inventory(inventory_sheet):
     for row in inventory_data:
         print("\t".join(row))
 
+# Function to monitor stock supply in the warehouse
+def monitor_stock_supply(stocks_in_sheet, inventory_sheet):
+    try:
+        stocks_in_data = stocks_in_sheet.get_all_values()[1:]
+        inventory_data = inventory_sheet.get_all_values()[1:]
+        
+        print("Stock Supply in Warehouse:")
+        for item_in, quantity_in in stocks_in_data:
+            for item_inv, quantity_inv in inventory_data:
+                if item_in == item_inv:
+                    remaining_stock = int(quantity_in) - int(quantity_inv)
+                    print(f"{item_in}: {remaining_stock} units remaining")
+                    break
+    except gspread.exceptions.APIError as e:
+        print("Error fetching data:", e)
+
+# Function to validate user choice
+def validate_choice(choice):
+    valid_choices = ['1', '2', '3', '4', '5']
+    return choice in valid_choices
+
+
+
+# Update main() function to include monitoring stock supply
 def main():
     gspread_client = authenticate_google_sheets()
     spreadsheet = gspread_client.open('Inventory_of_stocks')
@@ -94,39 +119,35 @@ def main():
         print("1. Update stock in")
         print("2. Update stocks used")
         print("3. Update inventory")
-        print("4. Update inventory with the latest stock in")
+        print("4. Monitor stock supply")
         print("5. Exit")
 
         choice = input("Enter your choice: ")
 
-        if choice == '1':
-            update_sheet(stocks_in_sheet, menu_list, "stock in")
-            print("Updated stocks in:")
-            for item in menu_list:
-                print(f"{item}: {stocks_in_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
-        elif choice == '2':
-            update_sheet(stocks_used_sheet, menu_list, "stocks used")
-            print("Updated stocks used:")
-            for item in menu_list:
-                print(f"{item}: {stocks_used_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
-        elif choice == '3':
-            inventory_values = calculate_inventory(stocks_in_sheet, stocks_used_sheet)
-            update_inventory_sheet(inventory_sheet, inventory_values)
-            print("Updated inventory:")
-            for item, quantity in inventory_values:
-                print(f"{item}: {quantity}")
-        elif choice == '4':
-            # Update inventory with the latest stock in
-            pass
-        elif choice == '5':
-            print("Thank you for using the Warehouse Management System. Have a nice day!")
-            break
+        if validate_choice(choice):
+            if choice == '1':
+                update_sheet(stocks_in_sheet, menu_list, "stock in")
+                print("Updated stocks in:")
+                for item in menu_list:
+                    print(f"{item}: {stocks_in_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
+            elif choice == '2':
+                update_sheet(stocks_used_sheet, menu_list, "stocks used")
+                print("Updated stocks used:")
+                for item in menu_list:
+                    print(f"{item}: {stocks_used_sheet.acell('B' + str(menu_list.index(item) + 2)).value}")
+            elif choice == '3':
+                inventory_values = calculate_inventory(stocks_in_sheet, stocks_used_sheet)
+                update_inventory_sheet(inventory_sheet, inventory_values)
+                print_inventory_data(inventory_sheet)
+            elif choice == '4':
+                monitor_stock_supply(stocks_in_sheet, inventory_sheet)
+            elif choice == '5':
+                print("Thank you for using the Warehouse Management System. Have a nice day!")
+                break
         else:
             print("Invalid choice. Please enter a number between 1 and 5.")
 
 if __name__ == "__main__":
     main()
-
-    
 
     
