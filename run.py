@@ -1,13 +1,7 @@
+#run.py
 import gspread
-import logging
 from google.oauth2.service_account import Credentials
-from datetime import datetime
-
-# Import the logging module to handle logging
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+from datetime import date
 
 def authenticate_google_sheets():
     """Authenticate with Google Sheets using service account credentials."""
@@ -19,107 +13,119 @@ def authenticate_google_sheets():
     gspread_client = gspread.authorize(scoped_credentials)
     return gspread_client
 
+# Function to update stock in or stock used
+def update_sheet(sheet, menu_list, quantity_type):
+    print("Menu List:")
+    for i, item in enumerate(menu_list, start=1):
+        print(f"{i}. {item}")
 
-def add_item(gspread_client, item_name, quantity, sheet_name):
-    """Add item to the specified sheet."""
+    while True:
+        try:
+            choice = int(input("Choose an item number to update (Enter the number): "))
+            if 1 <= choice <= len(menu_list):
+                menu_item = menu_list[choice - 1]
+                break
+            else:
+                print("Invalid choice. Enter a valid menu item number.")
+        except ValueError:
+            print("Error: Invalid input. Please enter a valid number.")
+
     try:
-        sheet = gspread_client.open(sheet_name).sheet1
-        sheet.append_row([item_name, quantity, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
-        logging.info(f"Item '{item_name}' added to {sheet_name}.")
-    except Exception as e:
-        logging.error(f"Failed to add item '{item_name}' to {sheet_name}: {e}")
-        raise
+        cell = sheet.find(menu_item)
+    except gspread.exceptions.CellNotFound:
+        sheet.append_row([menu_item, 0])
+        cell = sheet.find(menu_item)
 
-def calculate_inventory_status(gspread_client):
-    """Calculate inventory status by subtracting stocks used from stocks in."""
-    try:
-        stocks_in= gspread_client.open('stocks_in').sheet1
-        stocks_used = gspread_client.open('stocks_used').sheet1
-        stocks_in_data = stocks_in.get_all_values()
-        stocks_used_data = stocks_used.get_all_values()
+    while True:
+        quantity_input = input(f"Enter {quantity_type} quantity for {menu_item}: ")
+        if quantity_input.isdigit():
+            quantity_input = int(quantity_input)
+            break
+        else:
+            print("Error: Quantity should be a positive integer. Setting quantity to 0.")
+            quantity_input = 0
+            break
 
-        inventory_status = {}
+    sheet.update_cell(cell.row, 2, quantity_input)
+    print(f"{menu_item} {quantity_type} updated.")
 
-        # Calculate total stocks in
-        for row in stocks_in_data[1:]:
-            item_name, quantity, _ = row
-            inventory_status[item_name] = int(quantity)
+# Function to calculate inventory
+def calculate_inventory(stocks_in_sheet, delivered_sheet):
+    inventory_values = []
+    stocks_in_values = stocks_in_sheet.get_all_values()[1:]
+    delivered_values = delivered_sheet.get_all_values()[1:]
 
-        # Subtract total stocks used
-        for row in stocks_used_data[1:]:
-            item_name, quantity, _ = row
-            inventory_status[item_name] -= int(quantity)
+    for stock_in, delivered in zip(stocks_in_values, delivered_values):
+        item = stock_in[0]
+        stock_in_quantity = int(stock_in[1]) if stock_in[1].isdigit() else 0
+        delivered_quantity = int(delivered[1]) if delivered[1].isdigit() else 0
+        inventory_values.append([item, stock_in_quantity - delivered_quantity])
 
-        return inventory_status
+    return inventory_values
 
-    except Exception as e:
-        logging.error(f"Failed to calculate inventory status: {e}")
-        raise
+# Function to update inventory with calculated values
+def update_inventory_sheet(inventory_sheet, inventory_values):
+    inventory_sheet.clear()
+    inventory_sheet.append_row(["Item", "Inventory"])
+    for item, quantity in inventory_values:
+        inventory_sheet.append_row([item, quantity])
 
-def display_inventory_status(inventory_status):
-    """Display inventory status."""
-    try:
-        logging.info("\nInventory Status:")
-        for item, quantity in inventory_status.items():
-            logging.info(f"{item}: {quantity}")
-    except Exception as e:
-        logging.error(f"Failed to display inventory status: {e}")
-        raise
+# Function to display inventory
+def display_inventory(inventory_sheet):
+    inventory_data = inventory_sheet.get_all_values()
+    for row in inventory_data:
+        print("\t".join(row))
 
 def main():
-    """Main function to interact with the inventory management system."""
-    try:
-        gspread_client = authenticate_google_sheets()
-        spreadsheet = gspread_client.open('Inventory_of_stocks')
-        stocks_in = spreadsheet.worksheet('stocks_in')
-        stocks_used = spreadsheet.worksheet('stocks_used')
-        inventory = spreadsheet.worksheet('inventory')
-        items = ["FLOUR", "SUGAR", "EGG", "MILK", "COFFEE", "RICE"]
-        
-        while True:
-            logging.info("\nMenu:")
-            logging.info("1. Add stocks coming in")
-            logging.info("2. Record stocks used")
-            logging.info("3. Display inventory")
-            logging.info("4. Update stocks_in with previous inventory data")
-            logging.info("5. Display inventory status")
-            logging.info("6. Exit")
-            choice = input("\nEnter your choice (1-6): ")
+    gspread_client = authenticate_google_sheets()
+    spreadsheet = gspread_client.open('Inventory_of_stocks')
+    stocks_in_sheet = spreadsheet.worksheet('stocks_in')
+    delivered_sheet = spreadsheet.worksheet('stocks_used')
 
-            if choice == '1':
-                logging.info("Select item from the list:")
-                for index, item in enumerate(items, start=1):
-                    logging.info(f"{index}. {item}")
-                item_index = input("Enter item number: ")
-                if item_index.isdigit() and 1 <= int(item_index) <= len(items):
-                    item_name = items[int(item_index) - 1]
-                    quantity = input("Enter quantity: ")
-                    if quantity.isdigit() and int(quantity) > 0:
-                        add_item(gspread_client, item_name, int(quantity), stocks_in)
-                    else:
-                        logging.error("Invalid quantity. Please enter a valid positive number.")
-                else:
-                    logging.error("Invalid item number. Please enter a valid number.")
+    menu_list = ["FLOUR", "SUGAR", "EGG", "MILK", "COFFEE", "RICE"]
 
-            elif choice == '2':
-                logging.info("Select item from the list:")
-                for index, item in enumerate(items, start=1):
-                    logging.info(f"{index}. {item}")
-                item_index = input("Enter item number: ")
-                if item_index.isdigit() and 1 <= int(item_index) <= len(items):
-                    item_name = items[int(item_index) - 1]
-                    quantity = input("Enter quantity: ")
-                    if quantity.isdigit() and int(quantity) > 0:
-                        add_item(gspread_client, item_name, int(quantity), stocks_used)
-                    else:
-                        logging.error("Invalid quantity. Please enter a valid positive number.")
-                else:
-                    logging.error("Invalid item number. Please enter a valid number.")
+    print("Welcome to the Warehouse Management System!")
 
-            # Remaining code...
-                
-    except Exception as e:
-        logging.error(f"An error occurred: {e}")
+    while True:
+        print("Menu:")
+        print("1. Update stock in")
+        print("2. Update stocks used")
+        print("3. Update inventory")
+        print("4. Update inventory with the latest stock in")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            print("Updating Stock In:")
+            update_sheet(stocks_in_sheet, menu_list, "stock in")
+            print("Stock in updated.")
+        elif choice == '2':
+            print("Updating Stocks Used:")
+            update_sheet(delivered_sheet, menu_list, "stocks used")
+            print("Stocks used updated.")
+        elif choice == '3':
+            print("Updating Inventory:")
+            inventory_values = calculate_inventory(stocks_in_sheet, delivered_sheet)
+            update_inventory_sheet(spreadsheet.worksheet('inventory'), inventory_values)
+            print("Inventory updated.")
+            display_inventory(spreadsheet.worksheet('inventory'))
+        elif choice == '4':
+            update_choice = input("Do you want to update the inventory with the latest stock in? (yes/no): ")
+            if update_choice.lower() == 'yes':
+                inventory_values = calculate_inventory(stocks_in_sheet, delivered_sheet)
+                update_inventory_sheet(spreadsheet.worksheet('inventory'), inventory_values)
+                print("Inventory updated with the latest stock in.")
+                display_inventory(spreadsheet.worksheet('inventory'))
+            else:
+                print("Inventory not updated.")
+        elif choice == '5':
+            print("Thank you for using the Warehouse Management System. Have a nice day!")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 if __name__ == "__main__":
     main()
+
+    
