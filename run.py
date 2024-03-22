@@ -21,11 +21,13 @@ def update_sheet(sheet, menu_list, quantity_type):
     for item in menu_list:
         while True:
             try:
-                quantity_input = input(f"Enter {quantity_type} quantity for {item}: ")
-                quantity = int(quantity_input) if quantity_input.isdigit() and int(quantity_input) >= 0 else 0
+                quantity_input = input(f"Enter {quantity_type} quantity for {item} (0-50): ")
+                quantity = int(quantity_input) if 0 <= int(quantity_input) <= 50 else None
+                if quantity is None:
+                    raise ValueError("Error: Quantity should be an integer between 0 and 50.")
                 break
-            except ValueError:
-                print("Error: Quantity should be a non-negative integer.")
+            except ValueError as e:
+                print(e)
         data.append([item, quantity])
 
     # Update the Google Sheet
@@ -33,6 +35,7 @@ def update_sheet(sheet, menu_list, quantity_type):
         sheet.update_cell(row, 2, quantity)
 
     print(f"{quantity_type.capitalize()} updated.")
+
 
 
 # Function to calculate inventory by subtracting stocks_used from stocks_in
@@ -93,7 +96,7 @@ def monitor_stock_supply(stocks_in_sheet, inventory_sheet):
                     break
     except gspread.exceptions.APIError as e:
         print("Error fetching data:", e)
-        
+
 # Function to validate user choice
 def validate_choice(choice):
     valid_choices = ['1', '2', '3', '4', '5']
