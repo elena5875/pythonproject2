@@ -96,7 +96,7 @@ The input data is saved in the google sheet named stocks_used
 The data is  printed out the data for the user to see
 ![Programlflow](./images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
-3. Updating the inventory. 
+3.Updating the inventory. 
 When the user chooses this number the difference is calculated between stocks_in and stocks_used. 
 When it is  done updating, it  prints out the final data for the user to see
 ![Programlflow](./images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
@@ -109,7 +109,7 @@ The program ends and we say thank you for using the program and have a nice day!
 ![Programlflow](./images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 5. Exit. If the user chooses this, the program ends and 
 says thank you for using the program and have a nice day!
-![Programflow](./images/heroku5_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg))
+![Programflow](./images/heroku5_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
 # DEPLOYMENT
 I deployed my project in both heroku and github
