@@ -9,58 +9,6 @@ To make their monitoring easy the User will just simply input the amount of stoc
 also the stocks being used. Once the user has been done in encoding the data the program will automatically 
 compute the difference and tell the user how much items are left in the warehouse.
 
-
-The flow of the program is this:
-
-The User is prompted with the following message
-Welcome to warehouse management system.
-The the user can see the Menu list
-Menu list
-1. Updating the stock_in
-2. Updating the stocks_used
-3. Updating the inventory
-4. Updating the inventory with the stocks_in
-5. Exit
-Enter your choice:
-![Programlflow](./images/heroku1_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-For 1.  The user can input data for following menu list
-Menu List:
-1. FLOUR
-2. SUGAR
-3. EGG
-4. MILK 
-5. COFFEE
-6. RICE
-7. Exit
-As the input  data is saved in the google sheet named stocks_in
-The data is printed out  for the user to see
-![Programlflow](./images/heroku1.2_nventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-![Programlflow](./images/heroku1.2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-For 2. The user can input the data for the following menu list
-Menu List:
-1. FLOUR
-2. SUGAR
-3. EGG
-4. MILK 
-5. COFFEE
-6. RICE
-7. Exit
-The input data is saved in the google sheet named stocks_used
-The data is  printed out the data for the user to see
-![Programlflow](./images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-3. Updating the inventory. 
-When the user chooses this number the difference is calculated between stocks_in and stocks_used. 
-When it is  done updating, it  prints out the final data for the user to see
-![Programlflow](./images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
- 4.Monitor stocks supply.
-When the user chooses this function, it will calculate the sum of both stocks_in and inventory. 
-Then it prints out the sum stating the updated items in the warehouse.
-The program ends and we say thank you for using the program and have a nice day!
-![Programlflow](./images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-5. Exit. If the user chooses this, the program ends and 
-says thank you for using the program and have a nice day!
-![Programflow](./images/heroku5_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg))
-
 # FLOW OF WORK
 To start this project I created a workflow to make sure that I am aware of how my project would work
 and what source code I would need to make this program work
@@ -106,7 +54,63 @@ SCOPE = ["https://www.googleapis.com/auth/spreadsheets",
         stocks_in_sheet = spreadsheet.worksheet('stocks_in')
         delivered_sheet = spreadsheet.worksheet('stocks_used')
 4. Commit and push your file.
-        
+
+## The flow of the program is this:
+
+The User is prompted with the following message
+Welcome to warehouse management system.
+The the user can see the Menu list
+Menu list
+1. Updating the stock_in
+2. Updating the stocks_used
+3. Updating the inventory
+4. Updating the inventory with the stocks_in
+5. Exit
+Enter your choice:
+![Programlflow](./images/heroku1_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+
+For 1.  The user can input data for following menu list
+Menu List:
+1. FLOUR
+2. SUGAR
+3. EGG
+4. MILK 
+5. COFFEE
+6. RICE
+7. Exit
+As the input  data is saved in the google sheet named stocks_in
+The data is printed out  for the user to see
+![Programlflow](./images/heroku1.2_nventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku1.2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+
+For 2. The user can input the data for the following menu list
+Menu List:
+1. FLOUR
+2. SUGAR
+3. EGG
+4. MILK 
+5. COFFEE
+6. RICE
+7. Exit
+The input data is saved in the google sheet named stocks_used
+The data is  printed out the data for the user to see
+![Programlflow](./images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+
+3. Updating the inventory. 
+When the user chooses this number the difference is calculated between stocks_in and stocks_used. 
+When it is  done updating, it  prints out the final data for the user to see
+![Programlflow](./images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+
+4.Monitor stocks supply.
+When the user chooses this function, it will calculate the sum of both stocks_in and inventory. 
+Then it prints out the sum stating the updated items in the warehouse.
+The program ends and we say thank you for using the program and have a nice day!
+
+![Programlflow](./images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+5. Exit. If the user chooses this, the program ends and 
+says thank you for using the program and have a nice day!
+![Programflow](./images/heroku5_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg))
+
 # DEPLOYMENT
 I deployed my project in both heroku and github
 the following steps were made:
