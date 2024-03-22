@@ -27,7 +27,7 @@ Menu list
 4. Updating the inventory with the stocks_in
 5. Exit
 Enter your choice:
-![Programlflow](./workspaces/pythonproject2/images/heroku1_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku1_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
 For 1.  The user can input data for following menu list
 Menu List:
@@ -40,8 +40,8 @@ Menu List:
 7. Exit
 As the input  data is saved in the google sheet named stocks_in
 The data is printed out  for the user to see
-![Programlflow](./workspaces/pythonproject2/images/heroku1.2_nventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-![Programlflow](./workspaces/pythonproject2/images/heroku1.2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku1.2_nventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku1.2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 For 2. The user can input the data for the following menu list
 Menu List:
 1. FLOUR
@@ -53,18 +53,18 @@ Menu List:
 7. Exit
 The input data is saved in the google sheet named stocks_used
 The data is  printed out the data for the user to see
-![Programlflow](./workspaces/pythonproject2/images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
 3. Updating the inventory. 
 When the user chooses this number the difference is calculated between stocks_in and stocks_used. 
 When it is  done updating, it  prints out the final data for the user to see
-![Programlflow](./workspaces/pythonproject2/images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
  4.Monitor stocks supply.
 When the user chooses this function, it will calculate the sum of both stocks_in and inventory. 
 Then it prints out the sum stating the updated items in the warehouse.
 The program ends and we say thank you for using the program and have a nice day!
-![Programlflow](./workspaces/pythonproject2/images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
+![Programlflow](./images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
 
 5. Exit. If the user chooses this, the program ends and 
 says thank you for using the program and have a nice day!
@@ -75,16 +75,16 @@ says thank you for using the program and have a nice day!
 To start this project I created a workflow to make sure that I am aware of how my project would work
 and what source code I would need to make this program work
 
-![workflowt](./workspaces/pythonproject2/images/Screenshot_22-3-2024_9846_docs.google.com.jpeg)
+![workflowt](./images/Screenshot_22-3-2024_9846_docs.google.com.jpeg)
 
 
 
 # PROGRAM BUILD UP
 To create this program I needed to make sure that my python program is connected to my google sheets. 
 in order to do this I have first create my google sheets.
-![google sheet stocks_in](./workspaces/pythonproject2/images/stocks_in_22-3-2024_9199_docs.google.com.jpeg)
-![google sheet stocks_used](./workspaces/pythonproject2/images/stocks_used91955_docs.google.com.jpeg)
-![google sheet inventory](./workspaces/pythonproject2/images/inventory_92055_docs.google.com.jpeg)
+![google sheet stocks_in](./images/stocks_in_22-3-2024_9199_docs.google.com.jpeg)
+![google sheet stocks_used](./images/stocks_used91955_docs.google.com.jpeg)
+![google sheet inventory](./images/inventory_92055_docs.google.com.jpeg)
 
 After this I have to do the following:
 1. Activate my API credentials
@@ -143,7 +143,7 @@ However, not all violations can be fix by this program.
 
 after making the codes shorter. Don' know if the codes pass or not. 
 No validation was mentioned if the program passed the code for pep8
-![pep8](./workspaces/pythonproject2/images/pep8validator2-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
+![pep8](./images/pep8validator2-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
 
 
 # DEPLOYMENT
