@@ -2,11 +2,7 @@
 This is program is a database for a small warehouse where we
 the user can monitor stocks coming in and out of the warehouse.
 The program can also let the user know the updated inventory of the warehouse
-
-        
-
 #    FEATURES
-
 This program is intended for those who are managing a small warehouse
 This will help the user in monitoring the flow of the stocks coming in and stocks that are being used
 To make their monitoring easy the User will just simply input the amount of stocks coming in and input
@@ -14,9 +10,8 @@ also the stocks being used. Once the user has been done in encoding the data the
 compute the difference and tell the user how much items are left in the warehouse.
 
 
-The app would work as follows:
-
 The flow of the program is this:
+
 The User is prompted with the following message
 Welcome to warehouse management system.
 The the user can see the Menu list
@@ -28,7 +23,6 @@ Menu list
 5. Exit
 Enter your choice:
 ![Programlflow](./images/heroku1_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-
 For 1.  The user can input data for following menu list
 Menu List:
 1. FLOUR
@@ -54,30 +48,24 @@ Menu List:
 The input data is saved in the google sheet named stocks_used
 The data is  printed out the data for the user to see
 ![Programlflow](./images/heroku2_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-
 3. Updating the inventory. 
 When the user chooses this number the difference is calculated between stocks_in and stocks_used. 
 When it is  done updating, it  prints out the final data for the user to see
 ![Programlflow](./images/heroku3_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-
  4.Monitor stocks supply.
 When the user chooses this function, it will calculate the sum of both stocks_in and inventory. 
 Then it prints out the sum stating the updated items in the warehouse.
 The program ends and we say thank you for using the program and have a nice day!
 ![Programlflow](./images/heroku4_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg)
-
 5. Exit. If the user chooses this, the program ends and 
 says thank you for using the program and have a nice day!
 ![Programflow](./images/heroku5_inventory-of-stocks-333a0ee5f1db.herokuapp.com.jpeg))
-
 
 # FLOW OF WORK
 To start this project I created a workflow to make sure that I am aware of how my project would work
 and what source code I would need to make this program work
 
 ![workflowt](./images/Screenshot_22-3-2024_9846_docs.google.com.jpeg)
-
-
 
 # PROGRAM BUILD UP
 To create this program I needed to make sure that my python program is connected to my google sheets. 
@@ -117,12 +105,24 @@ SCOPE = ["https://www.googleapis.com/auth/spreadsheets",
         spreadsheet = gspread_client.open('Inventory_of_stocks')
         stocks_in_sheet = spreadsheet.worksheet('stocks_in')
         delivered_sheet = spreadsheet.worksheet('stocks_used')
-
-        
 4. Commit and push your file.
         
+# DEPLOYMENT
+I deployed my project in both heroku and github
+the following steps were made:
+1. Created a repository from github
+2. Copied the repository URL for my repository
+3. Created a file in CodeAnywhere for my IDE.
+4. Run the new file in Codeanywhere
 
+Creating a file in Heroku
 
+1. created an app in Heroku
+2. Chose github as my deployment method
+3. Connected my github repository to heroku
+4. Change my Config vars in the setting
+5. Added a build up pack Python and Nodejs
+6. Heroku is now ready to deploy
 
 # TESTING
 I validated my code by installing the pycodestyle using this code
@@ -144,25 +144,6 @@ However, not all violations can be fix by this program.
 after making the codes shorter. Don' know if the codes pass or not. 
 No validation was mentioned if the program passed the code for pep8
 ![pep8](./images/pep8validator2-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
-
-
-# DEPLOYMENT
-I deployed my project in both heroku and github
-the following steps were made:
-1. Created a repository from github
-2. Copied the repository URL for my repository
-3. Created a file in CodeAnywhere for my IDE.
-4. Run the new file in Codeanywhere
-
-
-### Creating a file in Heroku
-
-1. created an app in Heroku
-2. Chose github as my deployment method
-3. Connected my github repository to heroku
-4. Change my Config vars in the setting
-5. Added a build up pack Python and Nodejs
-6. Heroku is now ready to deploy
 
 # CREDITS AND REFERENCES
 
