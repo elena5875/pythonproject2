@@ -88,12 +88,12 @@ def monitor_stock_supply(stocks_in_sheet, inventory_sheet):
         for item_in, quantity_in in stocks_in_data:
             for item_inv, quantity_inv in inventory_data:
                 if item_in == item_inv:
-                    remaining_stock = int(quantity_in) - int(quantity_inv)
-                    print(f"{item_in}: {remaining_stock} units remaining")
+                    total_stock = int(quantity_in) + int(quantity_inv)
+                    print(f"{item_in}: {total_stock} units available")
                     break
     except gspread.exceptions.APIError as e:
         print("Error fetching data:", e)
-
+        
 # Function to validate user choice
 def validate_choice(choice):
     valid_choices = ['1', '2', '3', '4', '5']
