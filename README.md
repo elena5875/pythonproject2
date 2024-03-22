@@ -139,7 +139,7 @@ autopep8 --in-place --aggressive --aggressive run.py
 to edit automatically fix some violations. 
 However, not all violations can be fix by this program. 
 
-![pep8](./workspaces/pythonproject2/images/pep8validator-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
+![pep8](images/pep8validator-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
 
 after making the codes shorter. Don' know if the codes pass or not. 
 No validation was mentioned if the program passed the code for pep8
