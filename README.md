@@ -146,7 +146,8 @@ However, not all violations can be fix by this program.
 ![pep8](images/pep8validator-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
 
 after making the codes shorter. Don' know if the codes pass or not. 
-No validation was mentioned if the program passed the code for pep8
+No validation was mentioned if the program passed the code for pep8 but no mention 
+mistakes were also mentioned.
 ![pep8](./images/pep8validator2-pythonproject2-o7zzoofzhv.us1.codeanyapp.com.jpeg)
 
 # CREDITS AND REFERENCES
